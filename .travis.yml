@@ -13,7 +13,3 @@ script:
   - ./vendor/bin/phpcs --standard=PSR2 src/
   - ./vendor/bin/phpstan analyse -l max -c phpstan.neon src/
   - ./vendor/bin/phpunit
-
-addons:
-  code_climate:
-      repo_token: 676a03112a00ce7ab8c37d7faaa52a03d17969414489636ea1339fe0d1df7504
