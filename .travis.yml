@@ -10,8 +10,8 @@ before_script:
   - composer install --dev
 
 script:
-  - ./vendor/bin/phpcs --standard=PSR2
-  - ./vendor/bin/phpstan analyse -l max -c phpstan.neon src
+  - ./vendor/bin/phpcs --standard=PSR2 src/
+  - ./vendor/bin/phpstan analyse -l max -c phpstan.neon src/
   - ./vendor/bin/phpunit
 
 addons:
