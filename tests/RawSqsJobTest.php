@@ -10,8 +10,7 @@ class RawSqsJobTest extends TestCase
     public function testGettersSetters()
     {
         $data = ['first_name' => 'Primitive'];
-        $rawSqsJob = new RawSqsJob();
-        $rawSqsJob->setData($data);
+        $rawSqsJob = new RawSqsJob($data);
         $this->assertSame($data, $rawSqsJob->getData());
     }
 }

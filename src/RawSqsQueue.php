@@ -33,8 +33,7 @@ class RawSqsQueue extends SqsQueue implements Queue
 
             $jobClass = $this->getJobClass();
 
-            $captureJob = new $jobClass();
-            $captureJob->setData($jobBody);
+            $captureJob = new $jobClass($jobBody);
 
             $payload = $this->createPayload($captureJob, $queue, $jobBody);
             $message['Body'] = $payload;
