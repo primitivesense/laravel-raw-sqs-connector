@@ -33,9 +33,6 @@ class RawSqsQueue extends SqsQueue implements Queue
 
             $jobClass = $this->getJobClass();
 
-            /**
-             * @var RawSqsJob $captureJob
-             */
             $captureJob = new $jobClass();
             $captureJob->setData($jobBody);
 
