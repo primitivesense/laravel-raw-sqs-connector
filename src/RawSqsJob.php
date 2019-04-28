@@ -14,11 +14,11 @@ class RawSqsJob implements ShouldQueue
      */
     protected $data;
 
+
     /**
-     * RawSqsJob constructor.
      * @param mixed $data
      */
-    public function __construct($data = null)
+    public function setData($data = null)
     {
         $this->data = $data;
     }
