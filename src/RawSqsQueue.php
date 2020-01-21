@@ -23,7 +23,7 @@ class RawSqsQueue extends SqsQueue implements Queue
     {
         $response = $this->sqs->receiveMessage([
             'QueueUrl' => $queue = $this->getQueue($queue),
-            'AttributeNames' => ['ApproximateReceiveCount'],
+            'AttributeNames' => ['All'],
         ]);
 
         if (! is_null($response['Messages']) && count($response['Messages']) > 0) {
