@@ -23,7 +23,6 @@ class RawSqsJob implements ShouldQueue
         $this->data = $data;
     }
 
-
     /**
      * @return mixed
      */

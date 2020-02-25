@@ -23,13 +23,4 @@ class RawSqsServiceProvider extends ServiceProvider
             return new RawSqsConnector;
         });
     }
-
-    /**
-     * Register any application services.
-     *
-     * @return void
-     */
-    public function register()
-    {
-    }
 }
