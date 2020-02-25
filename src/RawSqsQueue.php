@@ -1,12 +1,11 @@
 <?php
 namespace PrimitiveSense\LaravelRawSqsConnector;
 
-use Illuminate\Contracts\Queue\Queue;
 use Illuminate\Queue\InvalidPayloadException;
 use Illuminate\Queue\Jobs\SqsJob;
 use Illuminate\Queue\SqsQueue;
 
-class RawSqsQueue extends SqsQueue implements Queue
+class RawSqsQueue extends SqsQueue
 {
     /**
      * @var string
