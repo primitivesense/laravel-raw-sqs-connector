@@ -13,7 +13,7 @@ class RawSqsConnector implements ConnectorInterface
     /**
      * Establish a queue connection.
      *
-     * @param  array  $config
+     * @param  array<mixed> $config
      * @return \Illuminate\Contracts\Queue\Queue
      */
     public function connect(array $config)
@@ -52,10 +52,10 @@ class RawSqsConnector implements ConnectorInterface
     /**
      * Get the default configuration for SQS.
      *
-     * @param  array  $config
-     * @return array
+     * @param  array<mixed> $config
+     * @return array<mixed>
      */
-    protected function getDefaultConfiguration(array $config)
+    protected function getDefaultConfiguration(array $config): array
     {
         return array_merge([
             'version' => 'latest',

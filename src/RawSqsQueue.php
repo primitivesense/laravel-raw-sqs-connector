@@ -64,7 +64,7 @@ class RawSqsQueue extends SqsQueue
     /**
      * @param string $payload
      * @param null $queue
-     * @param array $options
+     * @param array<mixed> $options
      * @throws InvalidPayloadException
      */
     public function pushRaw($payload, $queue = null, array $options = [])
