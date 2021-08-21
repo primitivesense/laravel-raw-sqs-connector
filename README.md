@@ -21,7 +21,7 @@ This library was originally built to allow the submission of jobs from AWS Lambd
 ## Dependencies
 
 * PHP >= 7.3
-* Laravel >= 6.0
+* Laravel >= 8.0
 
 ## Installation via Composer
 
