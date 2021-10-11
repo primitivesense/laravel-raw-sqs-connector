@@ -58,7 +58,11 @@ class RawSqsQueue extends SqsQueue
      */
     public function push($job, $data = '', $queue = null)
     {
-        throw new InvalidPayloadException('push is not permitted for raw-sqs connector');
+        $payload = json_encode($job->getData());
+
+        return $this->sqs->sendMessage([
+            'QueueUrl' => $this->getQueue($queue), 'MessageBody' => $payload,
+        ])->get('MessageId');
     }
 
     /**
@@ -69,21 +73,35 @@ class RawSqsQueue extends SqsQueue
      */
     public function pushRaw($payload, $queue = null, array $options = [])
     {
-        throw new InvalidPayloadException('pushRaw is not permitted for raw-sqs connector');
+        $p = json_decode($payload, true);
+        $p = unserialize($p["data"]["command"]);
+        $p = $p->getData();
+        $p = json_encode($p);
+
+        return $this->sqs->sendMessage([
+            'QueueUrl' => $this->getQueue($queue), 'MessageBody' => $p,
+        ])->get('MessageId');
+        // throw new InvalidPayloadException('pushRaw is not permitted for raw-sqs connector');
     }
 
     /**
      * Push a new job onto the queue after a delay.
      *
      * @param  \DateTimeInterface|\DateInterval|int  $delay
-     * @param  string  $job
+     * @param  mixed  $job
      * @param  mixed   $data
      * @param  string  $queue
      * @throws InvalidPayloadException
      */
     public function later($delay, $job, $data = '', $queue = null)
     {
-        throw new InvalidPayloadException('later is not permitted for raw-sqs connector');
+        $payload = json_encode($job->getData());
+
+        return $this->sqs->sendMessage([
+            'QueueUrl' => $this->getQueue($queue),
+            'MessageBody' => $payload,
+            'DelaySeconds' => $this->secondsUntil($delay),
+        ])->get('MessageId');
     }
 
 
