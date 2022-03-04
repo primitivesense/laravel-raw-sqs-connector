@@ -11,8 +11,8 @@
   "require": {
     "php": ">=7.3",
     "ext-json": "*",
-    "illuminate/queue": "^8.0",
-    "aws/aws-sdk-php": "~3.1"
+    "illuminate/queue": "^8 || ^9",
+    "aws/aws-sdk-php": "^3.2"
   },
   "autoload": {
     "psr-4": {
