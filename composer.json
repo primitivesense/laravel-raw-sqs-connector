@@ -9,9 +9,9 @@
     }
   ],
   "require": {
-    "php": ">=7.3",
+    "php": ">=8.0",
     "ext-json": "*",
-    "illuminate/queue": "^8.0",
+    "illuminate/queue": "^9.0",
     "aws/aws-sdk-php": "~3.1"
   },
   "autoload": {
