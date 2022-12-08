@@ -1,0 +1,51 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Method AgentSoftware\\\\LaravelRawSqsConnector\\\\RawSqsConnector\\:\\:connect\\(\\) has parameter \\$config with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/RawSqsConnector.php
+
+		-
+			message: "#^Method AgentSoftware\\\\LaravelRawSqsConnector\\\\RawSqsConnector\\:\\:getDefaultConfiguration\\(\\) has parameter \\$config with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/RawSqsConnector.php
+
+		-
+			message: "#^Method AgentSoftware\\\\LaravelRawSqsConnector\\\\RawSqsConnector\\:\\:getDefaultConfiguration\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/RawSqsConnector.php
+
+		-
+			message: "#^Method AgentSoftware\\\\LaravelRawSqsConnector\\\\RawSqsJob\\:\\:__construct\\(\\) has parameter \\$data with no type specified\\.$#"
+			count: 1
+			path: src/RawSqsJob.php
+
+		-
+			message: "#^Cannot access offset 'Body' on mixed\\.$#"
+			count: 2
+			path: src/RawSqsQueue.php
+
+		-
+			message: "#^Cannot access offset 0 on mixed\\.$#"
+			count: 1
+			path: src/RawSqsQueue.php
+
+		-
+			message: "#^Method AgentSoftware\\\\LaravelRawSqsConnector\\\\RawSqsQueue\\:\\:pushRaw\\(\\) has parameter \\$options with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/RawSqsQueue.php
+
+		-
+			message: "#^Parameter \\#1 \\$json of function json_decode expects string, mixed given\\.$#"
+			count: 1
+			path: src/RawSqsQueue.php
+
+		-
+			message: "#^Parameter \\#1 \\$value of function count expects array\\|Countable, mixed given\\.$#"
+			count: 1
+			path: src/RawSqsQueue.php
+
+		-
+			message: "#^Parameter \\#3 \\$job of class Illuminate\\\\Queue\\\\Jobs\\\\SqsJob constructor expects array, mixed given\\.$#"
+			count: 1
+			path: src/RawSqsQueue.php

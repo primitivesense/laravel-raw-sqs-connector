@@ -2,9 +2,9 @@
 
 namespace Tests\Support;
 
-use PrimitiveSense\LaravelRawSqsConnector\RawSqsJob;
+use AgentSoftware\LaravelRawSqsConnector\RawSqsJob;
 
 class TestJobClass extends RawSqsJob
 {
-    public $data = [];
+    public mixed $data = [];
 }

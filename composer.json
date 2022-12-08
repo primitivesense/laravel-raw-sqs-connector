@@ -1,34 +1,47 @@
 {
-  "name": "primitivesense/laravel-raw-sqs-connector",
-  "description": "Allows for the consumption of raw messages produced outside of Laravel from SQS to then be handled natively within Laravel's Queue and Job system",
-  "license": "MIT",
-  "authors": [
-    {
-      "name": "Tom Harnasz",
-      "email": "tom@primitivesense.com"
+    "name": "agentsoftware/laravel-raw-sqs-connector",
+    "description": "Allows for the consumption of raw messages produced outside of Laravel from SQS to then be handled natively within Laravel's Queue and Job system",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Tom Harnasz",
+            "email": "tom@primitivesense.com"
+        }
+    ],
+    "require": {
+        "php": ">=8.0",
+        "ext-json": "*",
+        "illuminate/queue": "^8 || ^9",
+        "aws/aws-sdk-php": "^3.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "AgentSoftware\\LaravelRawSqsConnector\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^3.13",
+        "mockery/mockery": "^1.2",
+        "phpstan/phpstan": "^1.9",
+        "phpunit/phpunit": "^9.5"
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "scripts": {
+        "lint": "php-cs-fixer fix",
+        "test:lint": "php-cs-fixer fix --dry-run",
+        "test:unit": "phpunit",
+        "test:types": "phpstan",
+        "test": [
+            "@test:unit",
+            "@test:lint",
+            "@test:types"
+        ]
     }
-  ],
-  "require": {
-    "php": ">=8.0",
-    "ext-json": "*",
-    "illuminate/queue": "^9.0",
-    "aws/aws-sdk-php": "~3.1"
-  },
-  "autoload": {
-    "psr-4": {
-      "PrimitiveSense\\LaravelRawSqsConnector\\": "src/"
-    }
-  },
-  "autoload-dev": {
-    "psr-4": {
-      "Tests\\": "tests/"
-    }
-  },
-  "require-dev": {
-    "phpunit/phpunit": "^8.0",
-    "phpstan/phpstan": "^0.12",
-    "phpstan/phpstan-mockery": "^0.12.0",
-    "squizlabs/php_codesniffer": "^3.4",
-    "mockery/mockery": "^1.2"
-  }
 }

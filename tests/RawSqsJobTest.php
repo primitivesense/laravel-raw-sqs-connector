@@ -3,11 +3,11 @@
 namespace Tests;
 
 use PHPUnit\Framework\TestCase;
-use PrimitiveSense\LaravelRawSqsConnector\RawSqsJob;
+use AgentSoftware\LaravelRawSqsConnector\RawSqsJob;
 
 class RawSqsJobTest extends TestCase
 {
-    public function testGettersSetters()
+    public function testGettersSetters(): void
     {
         $data = ['first_name' => 'Primitive'];
         $rawSqsJob = new RawSqsJob($data);

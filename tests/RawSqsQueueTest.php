@@ -7,20 +7,20 @@ use Illuminate\Container\Container;
 use Illuminate\Queue\InvalidPayloadException;
 use Mockery;
 use PHPUnit\Framework\TestCase;
-use PrimitiveSense\LaravelRawSqsConnector\RawSqsQueue;
+use AgentSoftware\LaravelRawSqsConnector\RawSqsQueue;
 use Tests\Support\TestJobClass;
 
 class RawSqsQueueTest extends TestCase
 {
-    public function testPopShouldReturnNewSqsJob()
+    public function testPopShouldReturnNewSqsJob(): void
     {
         $firstName = 'Primitive';
         $lastName = 'Sense';
 
         $sqsReturnMessage = [
             'Body' => json_encode([
-               'first_name' => $firstName,
-               'last_name' => $lastName
+                'first_name' => $firstName,
+                'last_name' => $lastName
             ])
         ];
 
@@ -53,7 +53,7 @@ class RawSqsQueueTest extends TestCase
         $this->assertSame($testJob->data['last_name'], $lastName);
     }
 
-    public function testPopShouldReturnNullIfMessagesAreNull()
+    public function testPopShouldReturnNullIfMessagesAreNull(): void
     {
         $sqsClientMock = Mockery::mock(SqsClient::class);
         $sqsClientMock->shouldReceive('receiveMessage')
@@ -74,7 +74,7 @@ class RawSqsQueueTest extends TestCase
         $this->assertNull($rawSqsQueue->pop());
     }
 
-    public function testPushShouldthrowInvalidPayLoadException()
+    public function testPushShouldthrowInvalidPayLoadException(): void
     {
         $this->expectException(InvalidPayloadException::class);
         $this->expectExceptionMessage('push is not permitted for raw-sqs connector');
@@ -90,7 +90,7 @@ class RawSqsQueueTest extends TestCase
         $rawSqsQueue->push(null, null, null);
     }
 
-    public function testPushRawShouldThrowInvalidPayLoadException()
+    public function testPushRawShouldThrowInvalidPayLoadException(): void
     {
         $this->expectException(InvalidPayloadException::class);
         $this->expectExceptionMessage('pushRaw is not permitted for raw-sqs connector');
@@ -106,7 +106,7 @@ class RawSqsQueueTest extends TestCase
         $rawSqsQueue->pushRaw(null, null, []);
     }
 
-    public function testLaterShouldThrowInvalidPayLoadException()
+    public function testLaterShouldThrowInvalidPayLoadException(): void
     {
         $this->expectException(InvalidPayloadException::class);
         $this->expectExceptionMessage('later is not permitted for raw-sqs connector');
