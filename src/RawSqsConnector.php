@@ -1,22 +1,17 @@
 <?php
 
-namespace PrimitiveSense\LaravelRawSqsConnector;
+namespace AgentSoftware\LaravelRawSqsConnector;
 
 use Aws\Sqs\SqsClient;
+use Illuminate\Contracts\Queue\Queue;
 use Illuminate\Queue\Connectors\ConnectorInterface;
 use Illuminate\Support\Arr;
 
 class RawSqsConnector implements ConnectorInterface
 {
-    const QUEUE_CONNECTOR_NAME = 'raw-sqs';
+    public const QUEUE_CONNECTOR_NAME = 'raw-sqs';
 
-    /**
-     * Establish a queue connection.
-     *
-     * @param  array<mixed> $config
-     * @return \Illuminate\Contracts\Queue\Queue
-     */
-    public function connect(array $config)
+    public function connect(array $config): Queue|RawSqsQueue
     {
         $config = $this->getDefaultConfiguration($config);
 
@@ -49,12 +44,6 @@ class RawSqsConnector implements ConnectorInterface
         return $rawSqsQueue;
     }
 
-    /**
-     * Get the default configuration for SQS.
-     *
-     * @param  array<mixed> $config
-     * @return array<mixed>
-     */
     protected function getDefaultConfiguration(array $config): array
     {
         return array_merge([

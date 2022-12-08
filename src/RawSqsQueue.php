@@ -1,31 +1,24 @@
 <?php
-namespace PrimitiveSense\LaravelRawSqsConnector;
 
+namespace AgentSoftware\LaravelRawSqsConnector;
+
+use Illuminate\Contracts\Queue\Job;
 use Illuminate\Queue\InvalidPayloadException;
 use Illuminate\Queue\Jobs\SqsJob;
 use Illuminate\Queue\SqsQueue;
 
 class RawSqsQueue extends SqsQueue
 {
-    /**
-     * @var string
-     */
-    protected $jobClass;
+    protected string $jobClass;
 
-    /**
-     * Pop the next job off of the queue.
-     *
-     * @param  string  $queue
-     * @return \Illuminate\Contracts\Queue\Job|null
-     */
-    public function pop($queue = null)
+    public function pop($queue = null): SqsJob|Job|null
     {
         $response = $this->sqs->receiveMessage([
             'QueueUrl' => $queue = $this->getQueue($queue),
             'AttributeNames' => ['All'],
         ]);
 
-        if (! is_null($response['Messages']) && count($response['Messages']) > 0) {
+        if (!is_null($response['Messages']) && count($response['Messages']) > 0) {
             $message = $response['Messages'][0];
 
             $jobBody = json_decode($message['Body'], true);
@@ -64,7 +57,7 @@ class RawSqsQueue extends SqsQueue
     /**
      * @param string $payload
      * @param null $queue
-     * @param array<mixed> $options
+     * @param array $options
      * @throws InvalidPayloadException
      */
     public function pushRaw($payload, $queue = null, array $options = [])
@@ -75,10 +68,10 @@ class RawSqsQueue extends SqsQueue
     /**
      * Push a new job onto the queue after a delay.
      *
-     * @param  \DateTimeInterface|\DateInterval|int  $delay
-     * @param  string  $job
-     * @param  mixed   $data
-     * @param  string  $queue
+     * @param \DateTimeInterface|\DateInterval|int $delay
+     * @param string $job
+     * @param mixed $data
+     * @param string $queue
      * @throws InvalidPayloadException
      */
     public function later($delay, $job, $data = '', $queue = null)
@@ -90,7 +83,7 @@ class RawSqsQueue extends SqsQueue
     /**
      * @return string
      */
-    public function getJobClass()
+    public function getJobClass(): string
     {
         return $this->jobClass;
     }
@@ -99,7 +92,7 @@ class RawSqsQueue extends SqsQueue
      * @param string $jobClass
      * @return $this
      */
-    public function setJobClass($jobClass)
+    public function setJobClass(string $jobClass): static
     {
         $this->jobClass = $jobClass;
         return $this;
