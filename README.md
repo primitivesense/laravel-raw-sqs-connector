@@ -28,7 +28,7 @@ This library was originally built to allow the submission of jobs from AWS Lambd
 To install:
 
 ```
-composer require primitivesense/laravel-raw-sqs-connector
+composer require agentsoftware/laravel-raw-sqs-connector
 ```
 
 ## How to use
@@ -38,7 +38,7 @@ Add the Service Provider into `config/app.php` like so:
 ```
 'providers' => [
     '...',
-    '\PrimitiveSense\LaravelRawSqsConnector\RawSqsServiceProvider'
+    AgentSoftware\LaravelRawSqsConnector\RawSqsServiceProvider::class,
 ];
 ```
 
