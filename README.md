@@ -1,9 +1,5 @@
 # Laravel Raw SQS Connector
 
-[![Build Status](https://travis-ci.org/primitivesense/laravel-raw-sqs-connector.svg?branch=master)](https://travis-ci.org/primitivesense/laravel-raw-sqs-connector)
-[![Maintainability](https://api.codeclimate.com/v1/badges/079c45048f9e349e67bb/maintainability)](https://codeclimate.com/github/primitivesense/laravel-raw-sqs-connector/maintainability)
-[![Latest Stable Version](https://poser.pugx.org/primitivesense/laravel-raw-sqs-connector/version)](https://packagist.org/packages/primitivesense/laravel-raw-sqs-connector)
-[![Total Downloads](https://poser.pugx.org/primitivesense/laravel-raw-sqs-connector/downloads)](https://packagist.org/packages/primitivesense/laravel-raw-sqs-connector)
 [![License](https://poser.pugx.org/primitivesense/laravel-raw-sqs-connector/license)](https://packagist.org/packages/primitivesense/laravel-raw-sqs-connector)
 
 ## About
@@ -20,15 +16,15 @@ This library was originally built to allow the submission of jobs from AWS Lambd
 
 ## Dependencies
 
-* PHP >= 7.3
-* Laravel >= 8.0
+* PHP >= 8.0
+* Laravel >= 9.0
 
 ## Installation via Composer
 
 To install:
 
 ```
-composer require primitivesense/laravel-raw-sqs-connector
+composer require iclassproinc/laravel-raw-sqs-connector
 ```
 
 ## How to use
