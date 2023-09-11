@@ -1,11 +1,15 @@
 {
-  "name": "primitivesense/laravel-raw-sqs-connector",
+  "name": "iclassproinc/laravel-raw-sqs-connector",
   "description": "Allows for the consumption of raw messages produced outside of Laravel from SQS to then be handled natively within Laravel's Queue and Job system",
   "license": "MIT",
   "authors": [
     {
       "name": "Tom Harnasz",
       "email": "tom@primitivesense.com"
+    },
+    {
+      "name": "Jeremiah Fulbright",
+      "email": "jeremiah@iclasspro.com"
     }
   ],
   "require": {
