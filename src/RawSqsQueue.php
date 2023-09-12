@@ -38,6 +38,10 @@ class RawSqsQueue extends SqsQueue
                 $jobClass = $this->getDefaultJobClass();
             }
 
+            if (!class_exists($jobClass)) {
+                throw new InvalidPayloadException('Job class does not exist: ' . $jobClass);
+            }
+            
             $captureJob = new $jobClass($jobBody);
 
             $payload = $this->createPayload($captureJob, $queue, $jobBody);
