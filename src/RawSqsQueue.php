@@ -41,8 +41,8 @@ class RawSqsQueue extends SqsQueue
                 throw new InvalidPayloadException('Invalid or missing job body');
             }
 
-            // grab job class from job body
-            $jobClass = $jobBody['job'] ?? null;
+            // grab job class from job or event body
+            $jobClass = $jobBody['job'] ?? $jobBody['event'] ?? null;
             $jobPrefix = $this->getJobPrefix();
 
             // if job class is not null and job prefix is not empty, prepend job prefix to job class
