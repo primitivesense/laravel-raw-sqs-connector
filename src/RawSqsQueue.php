@@ -16,6 +16,11 @@ class RawSqsQueue extends SqsQueue
     protected string $jobClass;
 
     /**
+     * @var string
+     */
+    protected string $jobPrefix;
+
+    /**
      * Pop the next job off of the queue.
      *
      * @param null $queue
@@ -36,12 +41,24 @@ class RawSqsQueue extends SqsQueue
                 throw new InvalidPayloadException('Invalid or missing job body');
             }
 
+            // grab job class from job body
             $jobClass = $jobBody['job'] ?? null;
+            $jobPrefix = $this->getJobPrefix();
+
+            // if job class is not null and job prefix is not empty, prepend job prefix to job class
+            if (!empty($jobPrefix) && !is_null($jobClass)) {
+                $jobClass = $jobPrefix . '\\' . $jobClass;
+            }
+
+            // if job class is null, set job class to default job class
             if (is_null($jobClass)) {
                 $jobClass = $this->getDefaultJobClass();
             }
-            unset($jobBody['job']); // Remove the job class from the job body
 
+            // Remove the job class from the job body
+            unset($jobBody['job']);
+
+            // if job class does not exist, throw exception
             if (!class_exists($jobClass)) {
                 throw new InvalidPayloadException('Job class does not exist: ' . $jobClass);
             }
@@ -114,6 +131,24 @@ class RawSqsQueue extends SqsQueue
     public function setDefaultJobClass(string $jobClass): static
     {
         $this->jobClass = $jobClass;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getJobPrefix(): string
+    {
+        return $this->jobPrefix;
+    }
+
+    /**
+     * @param string $jobPrefix
+     * @return $this
+     */
+    public function setJobPrefix(string $jobPrefix): static
+    {
+        $this->jobPrefix = $jobPrefix;
         return $this;
     }
 }
