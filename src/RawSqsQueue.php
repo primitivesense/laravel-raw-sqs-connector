@@ -32,6 +32,9 @@ class RawSqsQueue extends SqsQueue
             $message = $response['Messages'][0];
 
             $jobBody = json_decode($message['Body'], true);
+            if (is_null($jobBody)) {
+                throw new InvalidPayloadException('Invalid or missing job body');
+            }
 
             $jobClass = $jobBody['job'] ?? null;
             if (is_null($jobClass)) {
