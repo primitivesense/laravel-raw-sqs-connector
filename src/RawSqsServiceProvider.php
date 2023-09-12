@@ -2,6 +2,7 @@
 
 namespace PrimitiveSense\LaravelRawSqsConnector;
 
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Queue\QueueManager;
 use Illuminate\Support\ServiceProvider;
 
@@ -11,8 +12,9 @@ class RawSqsServiceProvider extends ServiceProvider
      * Bootstrap any application services.
      *
      * @return void
+     * @throws BindingResolutionException
      */
-    public function boot()
+    public function boot(): void
     {
         /**
          * @var $queueManager QueueManager

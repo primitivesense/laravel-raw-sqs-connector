@@ -6,5 +6,5 @@ use PrimitiveSense\LaravelRawSqsConnector\RawSqsJob;
 
 class TestJobClass extends RawSqsJob
 {
-    public $data = [];
+    public mixed $data = [];
 }

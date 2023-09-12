@@ -1,6 +1,9 @@
 <?php
 namespace PrimitiveSense\LaravelRawSqsConnector;
 
+use DateInterval;
+use DateTimeInterface;
+use Illuminate\Contracts\Queue\Job;
 use Illuminate\Queue\InvalidPayloadException;
 use Illuminate\Queue\Jobs\SqsJob;
 use Illuminate\Queue\SqsQueue;
@@ -10,33 +13,35 @@ class RawSqsQueue extends SqsQueue
     /**
      * @var string
      */
-    protected $jobClass;
+    protected string $jobClass;
 
     /**
      * Pop the next job off of the queue.
      *
-     * @param  string  $queue
-     * @return \Illuminate\Contracts\Queue\Job|null
+     * @param null $queue
+     * @return SqsJob|Job|null
      */
-    public function pop($queue = null)
+    public function pop($queue = null): SqsJob|Job|null
     {
         $response = $this->sqs->receiveMessage([
             'QueueUrl' => $queue = $this->getQueue($queue),
             'AttributeNames' => ['All'],
         ]);
 
-        if (! is_null($response['Messages']) && count($response['Messages']) > 0) {
+        if (!is_null($response['Messages']) && count($response['Messages']) > 0) {
             $message = $response['Messages'][0];
 
             $jobBody = json_decode($message['Body'], true);
 
-            $jobClass = $this->getJobClass();
+            $jobClass = $jobBody['job'] ?? null;
+            if (is_null($jobClass)) {
+                $jobClass = $this->getDefaultJobClass();
+            }
 
             $captureJob = new $jobClass($jobBody);
 
             $payload = $this->createPayload($captureJob, $queue, $jobBody);
             $message['Body'] = $payload;
-
 
             return new SqsJob(
                 $this->container,
@@ -64,7 +69,7 @@ class RawSqsQueue extends SqsQueue
     /**
      * @param string $payload
      * @param null $queue
-     * @param array<mixed> $options
+     * @param array $options
      * @throws InvalidPayloadException
      */
     public function pushRaw($payload, $queue = null, array $options = [])
@@ -75,7 +80,7 @@ class RawSqsQueue extends SqsQueue
     /**
      * Push a new job onto the queue after a delay.
      *
-     * @param  \DateTimeInterface|\DateInterval|int  $delay
+     * @param  DateTimeInterface|DateInterval|int  $delay
      * @param  string  $job
      * @param  mixed   $data
      * @param  string  $queue
@@ -86,11 +91,10 @@ class RawSqsQueue extends SqsQueue
         throw new InvalidPayloadException('later is not permitted for raw-sqs connector');
     }
 
-
     /**
      * @return string
      */
-    public function getJobClass()
+    public function getDefaultJobClass(): string
     {
         return $this->jobClass;
     }
@@ -99,7 +103,7 @@ class RawSqsQueue extends SqsQueue
      * @param string $jobClass
      * @return $this
      */
-    public function setJobClass($jobClass)
+    public function setDefaultJobClass(string $jobClass): static
     {
         $this->jobClass = $jobClass;
         return $this;
