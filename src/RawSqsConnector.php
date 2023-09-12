@@ -44,6 +44,10 @@ class RawSqsConnector implements ConnectorInterface
             $config['prefix'] ?? ''
         );
 
+        if (isset($config['job_prefix'])) {
+            $rawSqsQueue->setJobPrefix($config['job_prefix']);
+        }
+
         if (class_exists($config['default_job_class'])) {
             $rawSqsQueue->setDefaultJobClass($config['default_job_class']);
         }
