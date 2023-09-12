@@ -40,6 +40,7 @@ class RawSqsQueue extends SqsQueue
             if (is_null($jobClass)) {
                 $jobClass = $this->getDefaultJobClass();
             }
+            unset($jobBody['job']); // Remove the job class from the job body
 
             if (!class_exists($jobClass)) {
                 throw new InvalidPayloadException('Job class does not exist: ' . $jobClass);
