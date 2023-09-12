@@ -65,7 +65,7 @@ To then configure this within `config/queue.php` add the block below:
 ```
 'your-raw-sqs-queue' => [
     'driver' => 'raw-sqs',
-    'job_class' => \App\Jobs\ExampleRawSqsJob::class,
+    'default_job_class' => \App\Jobs\ExampleRawSqsJob::class,
     'key' => env('SQS_KEY', 'your-public-key'),
     'secret' => env('SQS_SECRET', 'your-secret-key'),
     'prefix' => env('SQS_PREFIX', 'https://sqs.us-east-1.amazonaws.com/your-account-id'),
@@ -74,7 +74,9 @@ To then configure this within `config/queue.php` add the block below:
 ],
 ```
 
-`your-raw-sqs-queue` is simply your custom message queue, the important bits to note are `driver` and `job_class`. `driver` is simply this packages `raw-sqs` connector and `job_class` just tells Laravel Queue which job to deletegate the raw message too.
+`your-raw-sqs-queue` is simply your custom message queue, the important bits to note are `driver` and `job_class`. `driver` is simply this packages `raw-sqs` connector and `default_job_class` just tells Laravel Queue which job to delegate the raw message too (if one is not in payload).
+
+Payload sent from SQS can contain a string variable named `job`, this will be looked up and used for that message if available.
 
 Then simply invoke the below to start the queue
 
