@@ -3,8 +3,10 @@
 namespace PrimitiveSense\LaravelRawSqsConnector;
 
 use Aws\Sqs\SqsClient;
+use Illuminate\Contracts\Queue\Queue;
 use Illuminate\Queue\Connectors\ConnectorInterface;
 use Illuminate\Support\Arr;
+use InvalidArgumentException;
 
 class RawSqsConnector implements ConnectorInterface
 {
@@ -13,21 +15,21 @@ class RawSqsConnector implements ConnectorInterface
     /**
      * Establish a queue connection.
      *
-     * @param  array<mixed> $config
-     * @return \Illuminate\Contracts\Queue\Queue
+     * @param array $config
+     * @return RawSqsQueue|Queue
      */
-    public function connect(array $config)
+    public function connect(array $config): RawSqsQueue|Queue
     {
         $config = $this->getDefaultConfiguration($config);
 
-        if (!class_exists($config['job_class'])) {
-            throw new \InvalidArgumentException(
+        if (!class_exists($config['default_job_class'])) {
+            throw new InvalidArgumentException(
                 'Raw SQS Connector - class ' . $config['job_class'] . ' does not exist'
             );
         }
 
-        if (!is_subclass_of($config['job_class'], RawSqsJob::class)) {
-            throw new \InvalidArgumentException(
+        if (!is_subclass_of($config['default_job_class'], RawSqsJob::class)) {
+            throw new InvalidArgumentException(
                 'Raw SQS Connector - ' . $config['job_class'] . ' must be a subclass of ' . RawSqsJob::class
             );
         }
@@ -42,8 +44,8 @@ class RawSqsConnector implements ConnectorInterface
             $config['prefix'] ?? ''
         );
 
-        if (class_exists($config['job_class'])) {
-            $rawSqsQueue->setJobClass($config['job_class']);
+        if (class_exists($config['default_job_class'])) {
+            $rawSqsQueue->setDefaultJobClass($config['default_job_class']);
         }
 
         return $rawSqsQueue;
@@ -52,8 +54,8 @@ class RawSqsConnector implements ConnectorInterface
     /**
      * Get the default configuration for SQS.
      *
-     * @param  array<mixed> $config
-     * @return array<mixed>
+     * @param array $config
+     * @return array
      */
     protected function getDefaultConfiguration(array $config): array
     {

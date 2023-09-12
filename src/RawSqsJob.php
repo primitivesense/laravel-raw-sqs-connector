@@ -12,7 +12,7 @@ class RawSqsJob implements ShouldQueue
     /**
      * @var mixed
      */
-    protected $data;
+    protected mixed $data;
 
     /**
      * RawSqsJob constructor.
@@ -23,11 +23,10 @@ class RawSqsJob implements ShouldQueue
         $this->data = $data;
     }
 
-
     /**
      * @return mixed
      */
-    public function getData()
+    public function getData(): mixed
     {
         return $this->data;
     }
