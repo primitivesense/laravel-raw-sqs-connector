@@ -8,6 +8,7 @@ use Illuminate\Queue\InvalidPayloadException;
 use Illuminate\Queue\Jobs\SqsJob;
 use Illuminate\Queue\SqsQueue;
 
+// TODO: investigate combining with regular queue
 class RawSqsQueue extends SqsQueue
 {
     /**
@@ -84,37 +85,54 @@ class RawSqsQueue extends SqsQueue
      * @param object|string $job
      * @param string $data
      * @param null $queue
-     * @throws InvalidPayloadException
+     * @return mixed|null
      */
-    public function push($job, $data = '', $queue = null)
+    public function push($job, $data = '', $queue = null): mixed
     {
-        throw new InvalidPayloadException('push is not permitted for raw-sqs connector');
+        $payload = json_encode($job->getData());
+
+        return $this->sqs->sendMessage([
+            'QueueUrl' => $this->getQueue($queue), 'MessageBody' => $payload,
+        ])->get('MessageId');
     }
 
     /**
      * @param string $payload
      * @param null $queue
      * @param array $options
-     * @throws InvalidPayloadException
+     * @return mixed|null
      */
-    public function pushRaw($payload, $queue = null, array $options = [])
+    public function pushRaw($payload, $queue = null, array $options = []): mixed
     {
-        throw new InvalidPayloadException('pushRaw is not permitted for raw-sqs connector');
+        // kind of hacky but it works
+        $p = json_decode($payload, true);
+        $p = unserialize($p["data"]["command"]);
+        $p = $p->getData();
+        $p = json_encode($p);
+
+        return $this->sqs->sendMessage([
+            'QueueUrl' => $this->getQueue($queue), 'MessageBody' => $p,
+        ])->get('MessageId');
     }
 
     /**
      * Push a new job onto the queue after a delay.
      *
      * @param  DateTimeInterface|DateInterval|int  $delay
-     * @param  string  $job
+     * @param  mixed  $job
      * @param  mixed   $data
      * @param  string  $queue
-     * @throws InvalidPayloadException
+     * @return mixed
      */
-    public function later($delay, $job, $data = '', $queue = null)
+    public function later($delay, $job, $data = '', $queue = null): mixed
     {
-        throw new InvalidPayloadException('later is not permitted for raw-sqs connector');
-    }
+        $payload = json_encode($job->getData());
+
+        return $this->sqs->sendMessage([
+            'QueueUrl' => $this->getQueue($queue),
+            'MessageBody' => $payload,
+            'DelaySeconds' => $this->secondsUntil($delay),
+        ])->get('MessageId');    }
 
     /**
      * @return string
